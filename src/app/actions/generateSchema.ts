@@ -1,6 +1,7 @@
 'use server'
 
-export async function generateSchema(prompt: string): Promise<any> {
+export async function generateSchema(_: any, formData: any): Promise<any> {
+    const prompt = formData.get("prompt") as string;
     if (!prompt) throw new Error("Prompt required");
 
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;

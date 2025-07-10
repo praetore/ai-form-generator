@@ -1,21 +1,16 @@
 'use client';
 
-import {useRef, useState} from "react";
+import {useActionState, useRef, useState} from "react";
 import Form from "@rjsf/daisyui";
 import validator from "@rjsf/validator-ajv8";
 import {generateSchema} from "@/app/actions/generateSchema";
 import {FaLinkedinIn, FaGithub} from "react-icons/fa";
+import Spinner from "@/app/components/spinner";
 
 export default function Home() {
     const formRef = useRef<HTMLFormElement>(null);
-    const [schema, setSchema] = useState<any>(null);
     const [formData, setFormData] = useState<any>({});
-
-    async function handleAction(formData: FormData) {
-        const prompt = formData.get("prompt") as string;
-        const schema = await generateSchema(prompt);
-        setSchema(schema);
-    }
+    const [schema, action, pending] = useActionState(generateSchema, null);
 
     return (
         <div
@@ -27,7 +22,7 @@ export default function Home() {
                         <span className="italic">Ja, dit is stiekem voor m’n sollicitatie bij MoreApp</span> 😏
                     </p>
                 </div>
-                <form action={handleAction} ref={formRef} className="w-full flex flex-col gap-4">
+                <form action={action} ref={formRef} className="w-full flex flex-col gap-4">
                     <textarea
                         name="prompt"
                         className="textarea textarea-bordered w-full"
@@ -36,19 +31,19 @@ export default function Home() {
                     />
                     <button className="btn btn-outline btn-warning" type="submit">Genereer!</button>
                 </form>
-                {schema && (
-                    <div className="p-8 w-full border-2 border-solid rounded-lg">
-                        <Form
-                            validator={validator}
-                            uiSchema={{
-                                "ui:field": "generated-form"
-                            }}
-                            schema={schema}
-                            formData={formData}
-                            onChange={(e) => setFormData(e.formData)}
-                        />
-                    </div>
-                )}
+                {pending
+                    ? <Spinner/>
+                    : schema && (
+                        <div className="p-8 w-full border-2 border-solid rounded-lg">
+                            <Form
+                                validator={validator}
+                                schema={schema}
+                                formData={formData}
+                                onChange={(e) => setFormData(e.formData)}
+                            />
+                        </div>
+                    )
+                }
             </main>
             <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
                 <p>Gemaakt door Darryl Amatsetam</p>
