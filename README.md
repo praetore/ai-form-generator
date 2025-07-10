@@ -5,7 +5,6 @@ Een moderne webapplicatie voor het dynamisch genereren van formulieren met behul
 ## 🚀 Belangrijkste Kenmerken
 
 - Dynamische formuliergeneratie
-- Offline ondersteuning met RxDB
 - Moderne UI met Tailwind CSS en DaisyUI
 - TypeScript voor type-veiligheid
 - React JSON Schema Form (RJSF) integratie
@@ -17,11 +16,8 @@ Een moderne webapplicatie voor het dynamisch genereren van formulieren met behul
 - **Styling**:
 	- Tailwind CSS
 	- DaisyUI
-- **Database**:
-	- RxDB
-	- Dexie
 - **Formulier Management**:
-	- RJSF Core & ShadCN UI
+	- RJSF
 - **Type Checking**: TypeScript
 
 ### Vereisten
